@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: springpetclinic
+  labels:
+    env: dev
+    app: spc
+spec:
+  minReadySeconds: 5
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spc
+      env: dev
+  template:
+    metadata:
+      name: springpc
+      labels:
+        env: dev
+        app: spc
+    spec:
+      containers:
+        - name: web
+          image: shaikkhajaibrahim/spcjan2024:1.0
+          ports:
+            - containerPort: 8080
+              protocol: "TCP"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 56M
+            limits:
+              cpu: 500m
+              memory: 256M
