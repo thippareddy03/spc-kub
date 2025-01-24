@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: loadbalancer
+spec:
+  minReadySeconds: 5
+  replicas: 1
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - spc-lb  
+  template:
+    metadata:
+      name: spc-load-balancer
+      labels:
+        env: dev
+        app: spc-lb
+    spec:
+      containers:
+        - name: spc-load-balance-container
+          image: shaikkhajaibrahim/spcjan2024:1.0
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 250m
+              memory: 56M
+            limits:
+              cpu: 500m
+              memory: 256M
+---
+
